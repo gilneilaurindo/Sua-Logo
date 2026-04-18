@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="pt-PT" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>✂️ Sua Logo | Premium Barbershop</title>
+    
+    <!-- Favicon com ícone de tesoura -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✂️</text></svg>">
+
+    <!-- Meta Tags -->
+    <meta name="theme-color" content="#050505">
+    <meta name="description" content="Flawless cuts & Lasting impact. Agende o seu corte na Sua Logo.">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;900&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#0a192f',
+                            blue: '#1e3a8a',
+                            light: '#3b82f6',
+                            neon: '#00f3ff',
+                            accent: '#f8fafc',
+                            gold: '#d4af37'
+                        },
+                        dark: '#050505',
+                        'dark-gray': '#121212',
+                        'card-bg': '#111827'
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        heading: ['Oswald', 'sans-serif'],
+                    },
+                    animation: {
+                        'blob': 'blob 10s infinite',
+                        'fade-in-up': 'fadeInUp 1s ease-out forwards',
+                        'draw-check': 'drawCheck 0.8s ease-in-out forwards',
+                        'scale-up': 'scaleUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                        'bounce-short': 'bounceShort 0.5s ease-in-out 2'
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        drawCheck: {
+                            '0%': { strokeDasharray: '0, 100' },
+                            '100%': { strokeDasharray: '100, 100' }
+                        },
+                        scaleUp: {
+                            '0%': { transform: 'scale(0.5)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        },
+                        bounceShort: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-25%)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #050505; color: #f3f4f6; overflow-x: hidden; padding-bottom: 90px; }
+        @media (min-width: 640px) { body { padding-bottom: 40px; } }
+        
+        /* Glass Cards */
+        .glass-card { 
+            background: rgba(17, 24, 39, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .reveal { opacity: 0; transform: translateY(40px) scale(0.98); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0) scale(1); }
+
+        /* Lock Step Styles (Progressive Flow) */
+        .step-locked { opacity: 0.3; filter: grayscale(100%); pointer-events: none; transition: all 0.6s ease; transform: scale(0.98); }
+        .step-unlocked { opacity: 1; filter: grayscale(0%); pointer-events: auto; transform: scale(1); }
+
+        .btn-shine { position: relative; overflow: hidden; }
+        .btn-shine::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg); animation: shine 3s infinite;
+        }
+        @keyframes shine { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+
+        /* Serviços UI */
+        .service-item { cursor: pointer; }
+        .service-item:hover { background: rgba(59, 130, 246, 0.05); border-color: rgba(59, 130, 246, 0.3); }
+        .selected-service { border-color: #3b82f6 !important; background: linear-gradient(145deg, rgba(59, 130, 246, 0.1) 0%, rgba(10, 25, 47, 0.4) 100%) !important; box-shadow: 0 0 20px rgba(59, 130, 246, 0.2); }
+        .radio-circle { transition: all 0.2s ease; border: 2px solid #4b5563; }
+        .selected-service .radio-circle { border-color: #3b82f6; box-shadow: 0 0 10px #3b82f6; }
+        .selected-service .radio-circle::after { content: ''; width: 10px; height: 10px; background-color: #3b82f6; border-radius: 50%; }
+
+        /* Timeslots Neon */
+        .time-slot { transition: all 0.3s ease; cursor: pointer; }
+        .time-slot.available:hover { border-color: #3b82f6; color: #fff; background: rgba(59, 130, 246, 0.1); box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
+        .time-slot.selected { border-color: #00f3ff !important; background: rgba(0, 243, 255, 0.15) !important; color: #fff !important; font-weight: 700 !important; box-shadow: 0 0 15px rgba(0, 243, 255, 0.5), inset 0 0 10px rgba(0, 243, 255, 0.2); text-shadow: 0 0 5px #00f3ff; }
+
+        /* Barber Select NEON effect */
+        .barber-avatar { filter: grayscale(100%); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .barber-radio:checked + div .barber-avatar { filter: grayscale(0%); transform: scale(1.1); }
+        .barber-radio:checked + div { border-color: #00f3ff; box-shadow: 0 0 20px rgba(0, 243, 255, 0.6), inset 0 0 10px rgba(0, 243, 255, 0.3); background-color: rgba(0, 243, 255, 0.05); }
+        .barber-radio:checked ~ span { color: #00f3ff; font-weight: 700; text-shadow: 0 0 10px rgba(0, 243, 255, 0.5); }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        /* Marquees (Carrosséis) */
+        .marquee, .testimonial-marquee, .gallery-marquee { display: flex; overflow: hidden; user-select: none; gap: 1rem; }
+        .marquee { background: #080c14; padding: 14px 0; border-bottom: 1px solid rgba(59, 130, 246, 0.2); border-top: 1px solid rgba(59, 130, 246, 0.2); }
+        .testimonial-marquee { padding: 1rem 0; mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); }
+        .gallery-marquee { padding-bottom: 1rem; mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent); }
+        .marquee-content { flex-shrink: 0; display: flex; justify-content: space-around; min-width: 100%; gap: 2rem; animation: scroll 20s linear infinite; font-weight: 500; font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 14px; letter-spacing: 2px; color: #9ca3af; }
+        .testimonial-content { flex-shrink: 0; display: flex; justify-content: space-around; gap: 1rem; animation: scroll-left 35s linear infinite; }
+        .gallery-content { flex-shrink: 0; display: flex; justify-content: space-around; gap: 1rem; animation: scroll-left 40s linear infinite; }
+        .testimonial-content:hover, .gallery-content:hover { animation-play-state: paused; }
+        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(calc(-100% - 2rem)); } }
+        @keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(calc(-100% - 1rem)); } }
+
+        /* Custom SVG Animation */
+        .check-svg { width: 80px; height: 80px; }
+        .check-circle { fill: none; stroke: #00f3ff; stroke-width: 4; stroke-dasharray: 166; stroke-dashoffset: 166; animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards; }
+        .check-path { fill: none; stroke: #00f3ff; stroke-width: 4; stroke-dasharray: 48; stroke-dashoffset: 48; animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards; }
+        @keyframes stroke { 100% { stroke-dashoffset: 0; } }
+
+        /* Product Image Hover */
+        .prod-img { transition: transform 0.5s ease; }
+        .glass-card:hover .prod-img { transform: translateY(-5px) scale(1.05); }
+
+        /* Custom Scrollbar for Cart */
+        .cart-scroll::-webkit-scrollbar { width: 4px; }
+        .cart-scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        .cart-scroll::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.5); border-radius: 4px; }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-blue selection:text-white relative overflow-hidden" id="body-container">
+
+    <!-- OVERLAY DO CARRINHO -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black/60 z-[9998] hidden opacity-0 transition-opacity duration-300" onclick="App.toggleCart()"></div>
+
+    <!-- DRAWER / MENU LATERAL DO CARRINHO -->
+    <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-[#0a0f18]/95 backdrop-blur-2xl z-[9999] transform translate-x-full transition-transform duration-300 shadow-2xl flex flex-col border-l border-white/10">
+        <!-- Header Carrinho -->
+        <div class="p-6 border-b border-white/10 flex justify-between items-center bg-black/40">
+            <h2 class="text-white font-heading font-bold text-xl uppercase tracking-widest flex items-center gap-3">
+                <i class="fas fa-shopping-cart text-brand-neon"></i> <span data-i18n="cart_title">O Seu Carrinho</span>
+            </h2>
+            <button onclick="App.toggleCart()" class="text-gray-400 hover:text-white transition-colors">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+        </div>
+        
+        <!-- Itens do Carrinho -->
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-3 cart-scroll">
+            <div class="text-center text-gray-500 mt-10 text-sm" data-i18n="cart_empty">O seu carrinho está vazio.</div>
+        </div>
+        
+        <!-- Footer Carrinho -->
+        <div class="p-6 border-t border-white/10 bg-black/60">
+            <div class="flex justify-between items-center mb-6">
+                <span class="text-gray-400 text-sm uppercase tracking-widest font-bold" data-i18n="cart_total">Total a Pagar</span>
+                <span id="cart-total-price" class="text-brand-neon font-bold text-2xl">€ 0,00</span>
+            </div>
+            <button onclick="App.checkoutCart()" id="btn-checkout" class="w-full bg-brand-light text-white font-heading font-bold uppercase tracking-[0.2em] py-4 rounded-xl shadow-[0_5px_15px_rgba(59,130,246,0.3)] hover:bg-brand-neon hover:text-black hover:shadow-[0_10px_20px_rgba(0,243,255,0.4)] transition-all flex justify-center items-center gap-2">
+                <span data-i18n="btn_checkout">Finalizar Compra</span> <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- TELA DE INICIAÇÃO (SPLASH SCREEN) -->
+    <div id="splash-screen" class="fixed inset-0 z-[9999] bg-[#050505] flex flex-col items-center justify-center transition-opacity duration-1000">
+        <div class="flex flex-col items-center gap-8">
+            <div class="w-24 h-24 rounded-full border border-brand-light/30 flex items-center justify-center bg-gradient-to-br from-gray-900 to-black shadow-[0_0_40px_rgba(59,130,246,0.2)] animate-pulse">
+                <i class="fas fa-cut text-white text-4xl transform -rotate-45 transition-transform duration-1000" id="splash-icon"></i>
+            </div>
+            <h1 class="font-heading font-bold text-white tracking-[0.4em] text-2xl uppercase mt-2">SUA LOGO</h1>
+            <div class="flex flex-col items-center gap-4 mt-8">
+                <div class="w-8 h-8 border-4 border-brand-navy border-t-brand-light rounded-full animate-spin"></div>
+                <span data-i18n="loading" class="text-[10px] text-gray-500 font-medium uppercase tracking-[0.2em] animate-pulse">A preparar a sua experiência...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- TELA DE SUCESSO (MODAL) -->
+    <div id="success-modal" class="fixed inset-0 z-[9999] bg-black/95 hidden flex-col items-center justify-center backdrop-blur-md">
+        <div class="bg-[#0a0f18] p-10 rounded-3xl border border-white/10 flex flex-col items-center shadow-[0_0_80px_rgba(0,243,255,0.15)] max-w-sm w-[90%] text-center animate-scale-up">
+            <svg class="check-svg mb-6" viewBox="0 0 52 52">
+                <circle class="check-circle" cx="26" cy="26" r="25" />
+                <path class="check-path" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+            </svg>
+            <h2 data-i18n="success_title" class="text-2xl font-heading font-bold text-white uppercase tracking-wider mb-2">Concluído!</h2>
+            <p data-i18n="success_desc" class="text-gray-400 text-sm mb-8">O seu pedido foi registado. Estamos ansiosos para recebê-lo.</p>
+            <button onclick="App.closeSuccessModal()" data-i18n="btn_close" class="bg-white text-black font-bold uppercase tracking-widest px-8 py-3 rounded-full hover:bg-gray-200 transition-colors text-xs">
+                Voltar ao Início
+            </button>
+        </div>
+    </div>
+
+    <!-- BACKGROUND EFFECTS -->
+    <div class="fixed inset-0 w-full h-full pointer-events-none z-[-1] overflow-hidden">
+        <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-blue/10 blur-[120px] mix-blend-screen animate-blob"></div>
+        <div class="absolute bottom-[10%] right-[-10%] w-[60vw] h-[60vw] rounded-full bg-brand-light/5 blur-[150px] mix-blend-screen animate-blob" style="animation-delay: 4s;"></div>
+    </div>
+
+    <!-- HEADER TOPO -->
+    <header class="bg-[#050505]/70 backdrop-blur-xl py-4 fixed top-0 w-full z-50 border-b border-white/5 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 flex justify-between items-center max-w-3xl">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full border border-brand-light/50 flex items-center justify-center bg-gradient-to-br from-gray-900 to-black shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+                    <i class="fas fa-cut text-white text-lg"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-heading font-bold text-white tracking-[0.2em] text-xl leading-none">SUA LOGO</span>
+                    <span data-i18n="city" class="text-[10px] text-brand-light uppercase tracking-[0.3em] mt-1 font-medium">A Sua Cidade, PT</span>
+                </div>
+            </div>
+            
+            <!-- Carrinho no Desktop/Header -->
+            <button onclick="App.toggleCart()" class="cart-icon-btn relative w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-all border border-white/10 hidden sm:flex">
+                <i class="fas fa-shopping-cart text-sm"></i>
+                <span class="cart-badge-count absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-[#050505] hidden">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative h-[65vh] min-h-[500px] w-full flex items-center justify-center pt-20">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=2074&auto=format&fit=crop" alt="Barbershop" class="w-full h-full object-cover opacity-40">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/60 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-[#050505] via-transparent to-[#050505]"></div>
+        </div>
+        
+        <div class="relative z-10 text-center px-4 max-w-2xl mx-auto flex flex-col items-center">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-light/10 border border-brand-light/20 text-brand-light text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur-sm">
+                <span class="w-2 h-2 rounded-full bg-brand-light animate-pulse"></span> <span data-i18n="accepting_bookings">A aceitar marcações</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-heading font-bold text-white uppercase tracking-wider mb-4 leading-tight">
+                <span data-i18n="hero_title_1">A Arte do</span> <span data-i18n="hero_title_2" class="text-transparent bg-clip-text bg-gradient-to-r from-brand-neon to-brand-light">Corte Perfeito</span>
+            </h1>
+            <p data-i18n="hero_desc" class="text-gray-300 text-sm md:text-base mb-8 max-w-md font-light leading-relaxed">
+                Mais do que um simples corte de cabelo. Uma experiência premium focada no seu estilo e bem-estar.
+            </p>
+            <button onclick="document.getElementById('services-section').scrollIntoView({behavior: 'smooth'})" class="btn-shine bg-white text-black font-heading font-bold uppercase tracking-widest px-8 py-4 rounded-xl hover:scale-105 transition-transform flex items-center gap-3 text-sm">
+                <span data-i18n="btn_book">Agendar Agora</span> <i class="fas fa-calendar-check"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- FAIXA ANIMADA -->
+    <div class="marquee relative z-40 mb-12">
+        <div class="marquee-content" aria-hidden="true">
+            <span class="flex items-center gap-3"><i class="fas fa-cut text-brand-light"></i> <span data-i18n="mq_1">Cortes de Precisão</span></span>
+            <span class="flex items-center gap-3"><i class="fas fa-fire text-brand-light"></i> <span data-i18n="mq_2">Toalha Quente</span></span>
+            <span class="flex items-center gap-3"><i class="fas fa-star text-brand-light"></i> Premium Service</span>
+        </div>
+        <div class="marquee-content" aria-hidden="true">
+            <span class="flex items-center gap-3"><i class="fas fa-cut text-brand-light"></i> <span data-i18n="mq_1">Cortes de Precisão</span></span>
+            <span class="flex items-center gap-3"><i class="fas fa-fire text-brand-light"></i> <span data-i18n="mq_2">Toalha Quente</span></span>
+            <span class="flex items-center gap-3"><i class="fas fa-star text-brand-light"></i> Premium Service</span>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="container mx-auto px-4 max-w-3xl">
+        
+        <!-- DEPOIMENTOS & BEM VINDO -->
+        <section class="reveal mb-16 mt-4">
+            <div class="glass-card p-8 mb-8 text-center relative overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.6)]">
+                <div class="absolute top-0 right-0 w-40 h-40 bg-brand-light/10 blur-[60px]"></div>
+                <h1 class="text-3xl font-heading font-bold text-white mb-3 uppercase tracking-wider"><span data-i18n="welcome">Bem-vindo à</span> SUA LOGO</h1>
+                <p data-i18n="welcome_desc" class="text-gray-300 text-sm mb-8 max-w-lg mx-auto leading-relaxed">A sua experiência premium no centro da cidade. Agende o seu horário de forma rápida e prática.</p>
+                <div class="inline-flex items-center gap-4 bg-[#0a0f18] px-6 py-3 rounded-full border border-white/10 shadow-inner">
+                    <div class="flex -space-x-3">
+                        <img class="w-10 h-10 rounded-full border-2 border-[#0a0f18] object-cover" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop" alt="User">
+                        <img class="w-10 h-10 rounded-full border-2 border-[#0a0f18] object-cover" src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=100&h=100&fit=crop" alt="User">
+                        <div class="w-10 h-10 rounded-full border-2 border-[#0a0f18] bg-brand-light text-white text-[11px] font-bold flex items-center justify-center">+5k</div>
+                    </div>
+                    <div class="text-left pl-2">
+                        <div class="flex text-brand-light text-sm mb-0.5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <span data-i18n="ig_clients" class="text-[11px] text-gray-400 font-medium tracking-wide">Clientes no Instagram</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-marquee">
+                <div class="testimonial-content">
+                    <div class="glass-card p-5 w-72 flex-shrink-0 border-brand-light/20">
+                        <div class="flex items-center gap-4 mb-3">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop" class="w-12 h-12 rounded-full object-cover border border-white/10" alt="Cliente">
+                            <div><h4 class="text-white text-sm font-bold tracking-wide">João Silva</h4><div class="flex text-brand-gold text-[10px] mt-0.5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+                        </div>
+                        <p class="text-gray-400 text-xs italic leading-relaxed">"O melhor skin fade que já fiz na cidade. Atendimento impecável e ambiente espetacular!"</p>
+                    </div>
+                    <div class="glass-card p-5 w-72 flex-shrink-0 border-brand-light/20">
+                        <div class="flex items-center gap-4 mb-3">
+                            <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=100&auto=format&fit=crop" class="w-12 h-12 rounded-full object-cover border border-white/10" alt="Cliente">
+                            <div><h4 class="text-white text-sm font-bold tracking-wide">Miguel Alves</h4><div class="flex text-brand-gold text-[10px] mt-0.5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+                        </div>
+                        <p class="text-gray-400 text-xs italic leading-relaxed">"Ambiente 5 estrelas. O serviço de barboterapia com toalha quente é um luxo."</p>
+                    </div>
+                    <div class="glass-card p-5 w-72 flex-shrink-0 border-brand-light/20">
+                        <div class="flex items-center gap-4 mb-3">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop" class="w-12 h-12 rounded-full object-cover border border-white/10" alt="Cliente">
+                            <div><h4 class="text-white text-sm font-bold tracking-wide">Tiago Costa</h4><div class="flex text-brand-gold text-[10px] mt-0.5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+                        </div>
+                        <p class="text-gray-400 text-xs italic leading-relaxed">"Profissionalismo do início ao fim. Fiquei cliente fiel logo na primeira visita."</p>
+                    </div>
+                </div>
+                <!-- Duplicate for Marquee -->
+                <div class="testimonial-content">
+                    <div class="glass-card p-5 w-72 flex-shrink-0 border-brand-light/20">
+                        <div class="flex items-center gap-4 mb-3">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop" class="w-12 h-12 rounded-full object-cover border border-white/10" alt="Cliente">
+                            <div><h4 class="text-white text-sm font-bold tracking-wide">João Silva</h4><div class="flex text-brand-gold text-[10px] mt-0.5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+                        </div>
+                        <p class="text-gray-400 text-xs italic leading-relaxed">"O melhor skin fade que já fiz na cidade. Atendimento impecável e ambiente espetacular!"</p>
+                    </div>
+                    <div class="glass-card p-5 w-72 flex-shrink-0 border-brand-light/20">
+                        <div class="flex items-center gap-4 mb-3">
+                            <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=100&auto=format&fit=crop" class="w-12 h-12 rounded-full object-cover border border-white/10" alt="Cliente">
+                            <div><h4 class="text-white text-sm font-bold tracking-wide">Miguel Alves</h4><div class="flex text-brand-gold text-[10px] mt-0.5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+                        </div>
+                        <p class="text-gray-400 text-xs italic leading-relaxed">"Ambiente 5 estrelas. O serviço de barboterapia com toalha quente é um luxo."</p>
+                    </div>
+                    <div class="glass-card p-5 w-72 flex-shrink-0 border-brand-light/20">
+                        <div class="flex items-center gap-4 mb-3">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop" class="w-12 h-12 rounded-full object-cover border border-white/10" alt="Cliente">
+                            <div><h4 class="text-white text-sm font-bold tracking-wide">Tiago Costa</h4><div class="flex text-brand-gold text-[10px] mt-0.5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+                        </div>
+                        <p class="text-gray-400 text-xs italic leading-relaxed">"Profissionalismo do início ao fim. Fiquei cliente fiel logo na primeira visita."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALERIA (O Nosso Trabalho) -->
+        <section class="reveal mb-16">
+            <h2 class="text-xl font-heading font-bold text-white uppercase tracking-widest mb-6">
+                <span class="text-brand-light mr-2">/</span><span data-i18n="gallery_title">O Nosso Trabalho</span>
+            </h2>
+            
+            <div class="gallery-marquee">
+                <div class="gallery-content">
+                    <div class="w-48 md:w-56 rounded-2xl overflow-hidden aspect-[4/5] bg-gray-900 border border-white/5 relative group cursor-pointer shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?q=80&w=800&auto=format&fit=crop" alt="Corte Degradê" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300 flex items-end p-5">
+                            <span class="text-white font-heading font-bold text-sm tracking-wider uppercase translate-y-2 group-hover:translate-y-0 transition-transform">Skin Fade</span>
+                        </div>
+                    </div>
+                    <div class="w-48 md:w-56 rounded-2xl overflow-hidden aspect-[4/5] bg-gray-900 border border-white/5 relative group cursor-pointer shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1593060592864-8848a60f9933?q=80&w=800&auto=format&fit=crop" alt="Barba Alinhada" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300 flex items-end p-5">
+                            <span class="text-white font-heading font-bold text-sm tracking-wider uppercase translate-y-2 group-hover:translate-y-0 transition-transform">Barboterapia</span>
+                        </div>
+                    </div>
+                    <div class="w-48 md:w-56 rounded-2xl overflow-hidden aspect-[4/5] bg-gray-900 border border-white/5 relative group cursor-pointer shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?q=80&w=800&auto=format&fit=crop" alt="Corte Tesoura" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300 flex items-end p-5">
+                            <span class="text-white font-heading font-bold text-sm tracking-wider uppercase translate-y-2 group-hover:translate-y-0 transition-transform">Clássico</span>
+                        </div>
+                    </div>
+                    <div class="w-48 md:w-56 rounded-2xl overflow-hidden aspect-[4/5] bg-gray-900 border border-white/5 relative group cursor-pointer shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=800&auto=format&fit=crop" alt="Estilo Clássico" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300 flex items-end p-5">
+                            <span class="text-white font-heading font-bold text-sm tracking-wider uppercase translate-y-2 group-hover:translate-y-0 transition-transform">Executivo</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Duplicate for Marquee -->
+                <div class="gallery-content">
+                    <div class="w-48 md:w-56 rounded-2xl overflow-hidden aspect-[4/5] bg-gray-900 border border-white/5 relative group cursor-pointer shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?q=80&w=800&auto=format&fit=crop" alt="Corte Degradê" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300 flex items-end p-5">
+                            <span class="text-white font-heading font-bold text-sm tracking-wider uppercase translate-y-2 group-hover:translate-y-0 transition-transform">Skin Fade</span>
+                        </div>
+                    </div>
+                    <div class="w-48 md:w-56 rounded-2xl overflow-hidden aspect-[4/5] bg-gray-900 border border-white/5 relative group cursor-pointer shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1593060592864-8848a60f9933?q=80&w=800&auto=format&fit=crop" alt="Barba Alinhada" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300 flex items-end p-5">
+                            <span class="text-white font-heading font-bold text-sm tracking-wider uppercase translate-y-2 group-hover:translate-y-0 transition-transform">Barboterapia</span>
+                        </div>
+                    </div>
+                    <div class="w-48 md:w-56 rounded-2xl overflow-hidden aspect-[4/5] bg-gray-900 border border-white/5 relative group cursor-pointer shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?q=80&w=800&auto=format&fit=crop" alt="Corte Tesoura" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300 flex items-end p-5">
+                            <span class="text-white font-heading font-bold text-sm tracking-wider uppercase translate-y-2 group-hover:translate-y-0 transition-transform">Clássico</span>
+                        </div>
+                    </div>
+                    <div class="w-48 md:w-56 rounded-2xl overflow-hidden aspect-[4/5] bg-gray-900 border border-white/5 relative group cursor-pointer shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=800&auto=format&fit=crop" alt="Estilo Clássico" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300 flex items-end p-5">
+                            <span class="text-white font-heading font-bold text-sm tracking-wider uppercase translate-y-2 group-hover:translate-y-0 transition-transform">Executivo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NOVO: SECÇÃO DE PRODUTOS (COM CARRINHO) -->
+        <section class="reveal mb-20" id="products-section">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-heading font-bold text-white uppercase tracking-widest">
+                    <span class="text-brand-light mr-2">/</span><span data-i18n="products_title">Produtos Premium</span>
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+                <!-- Produto 1 -->
+                <div class="glass-card p-4 flex flex-col justify-between text-center group hover:border-brand-neon hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] transition-all h-full relative">
+                    <div class="h-32 mb-4 w-full flex items-center justify-center overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=300&auto=format&fit=crop" alt="Óleo de Barba" class="h-full object-cover rounded-lg prod-img filter grayscale group-hover:grayscale-0">
+                    </div>
+                    <div>
+                        <h4 data-i18n="prod_1" class="text-white font-bold text-[11px] md:text-xs uppercase tracking-wide min-h-[32px]">Óleo de Barba Premium</h4>
+                        <span class="text-brand-neon font-bold text-sm block mt-2">€ 25,00</span>
+                    </div>
+                    <button onclick="App.addToCart('p1', 'prod_1', 25.00)" class="mt-4 bg-white/10 hover:bg-brand-neon hover:text-black text-white text-[10px] uppercase font-bold py-2 px-3 rounded-xl transition-all w-full flex items-center justify-center gap-2">
+                        <i class="fas fa-plus"></i> <span data-i18n="btn_add">Adicionar</span>
+                    </button>
+                </div>
+                
+                <!-- Produto 2 -->
+                <div class="glass-card p-4 flex flex-col justify-between text-center group hover:border-brand-neon hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] transition-all h-full relative">
+                    <div class="h-32 mb-4 w-full flex items-center justify-center overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=300&auto=format&fit=crop" alt="Pomada" class="h-full object-cover rounded-lg prod-img filter grayscale group-hover:grayscale-0">
+                    </div>
+                    <div>
+                        <h4 data-i18n="prod_2" class="text-white font-bold text-[11px] md:text-xs uppercase tracking-wide min-h-[32px]">Pomada Modeladora Mate</h4>
+                        <span class="text-brand-neon font-bold text-sm block mt-2">€ 18,00</span>
+                    </div>
+                    <button onclick="App.addToCart('p2', 'prod_2', 18.00)" class="mt-4 bg-white/10 hover:bg-brand-neon hover:text-black text-white text-[10px] uppercase font-bold py-2 px-3 rounded-xl transition-all w-full flex items-center justify-center gap-2">
+                        <i class="fas fa-plus"></i> <span data-i18n="btn_add">Adicionar</span>
+                    </button>
+                </div>
+                
+                <!-- Produto 3 -->
+                <div class="glass-card p-4 flex flex-col justify-between text-center group hover:border-brand-neon hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] transition-all h-full relative">
+                    <div class="h-32 mb-4 w-full flex items-center justify-center overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?q=80&w=300&auto=format&fit=crop" alt="Champô" class="h-full object-cover rounded-lg prod-img filter grayscale group-hover:grayscale-0">
+                    </div>
+                    <div>
+                        <h4 data-i18n="prod_3" class="text-white font-bold text-[11px] md:text-xs uppercase tracking-wide min-h-[32px]">Champô Fortificante</h4>
+                        <span class="text-brand-neon font-bold text-sm block mt-2">€ 20,00</span>
+                    </div>
+                    <button onclick="App.addToCart('p3', 'prod_3', 20.00)" class="mt-4 bg-white/10 hover:bg-brand-neon hover:text-black text-white text-[10px] uppercase font-bold py-2 px-3 rounded-xl transition-all w-full flex items-center justify-center gap-2">
+                        <i class="fas fa-plus"></i> <span data-i18n="btn_add">Adicionar</span>
+                    </button>
+                </div>
+
+                <!-- Produto 4 -->
+                <div class="glass-card p-4 flex flex-col justify-between text-center group hover:border-brand-neon hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] transition-all h-full relative">
+                    <div class="h-32 mb-4 w-full flex items-center justify-center overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=300&auto=format&fit=crop" alt="Bálsamo" class="h-full object-cover rounded-lg prod-img filter grayscale group-hover:grayscale-0">
+                    </div>
+                    <div>
+                        <h4 data-i18n="prod_4" class="text-white font-bold text-[11px] md:text-xs uppercase tracking-wide min-h-[32px]">Bálsamo Pós-Barba</h4>
+                        <span class="text-brand-neon font-bold text-sm block mt-2">€ 22,00</span>
+                    </div>
+                    <button onclick="App.addToCart('p4', 'prod_4', 22.00)" class="mt-4 bg-white/10 hover:bg-brand-neon hover:text-black text-white text-[10px] uppercase font-bold py-2 px-3 rounded-xl transition-all w-full flex items-center justify-center gap-2">
+                        <i class="fas fa-plus"></i> <span data-i18n="btn_add">Adicionar</span>
+                    </button>
+                </div>
+
+                <!-- Produto 5 -->
+                <div class="glass-card p-4 flex flex-col justify-between text-center group hover:border-brand-neon hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] transition-all h-full relative">
+                    <div class="h-32 mb-4 w-full flex items-center justify-center overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=300&auto=format&fit=crop" alt="Escova" class="h-full object-cover rounded-lg prod-img filter grayscale group-hover:grayscale-0">
+                    </div>
+                    <div>
+                        <h4 data-i18n="prod_5" class="text-white font-bold text-[11px] md:text-xs uppercase tracking-wide min-h-[32px]">Escova de Barba (Cerdas)</h4>
+                        <span class="text-brand-neon font-bold text-sm block mt-2">€ 15,00</span>
+                    </div>
+                    <button onclick="App.addToCart('p5', 'prod_5', 15.00)" class="mt-4 bg-white/10 hover:bg-brand-neon hover:text-black text-white text-[10px] uppercase font-bold py-2 px-3 rounded-xl transition-all w-full flex items-center justify-center gap-2">
+                        <i class="fas fa-plus"></i> <span data-i18n="btn_add">Adicionar</span>
+                    </button>
+                </div>
+
+                <!-- Produto 6 -->
+                <div class="glass-card p-4 flex flex-col justify-between text-center group hover:border-brand-neon hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] transition-all h-full relative">
+                    <div class="h-32 mb-4 w-full flex items-center justify-center overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1629198688000-71f23e745b6e?q=80&w=300&auto=format&fit=crop" alt="Spray" class="h-full object-cover rounded-lg prod-img filter grayscale group-hover:grayscale-0">
+                    </div>
+                    <div>
+                        <h4 data-i18n="prod_6" class="text-white font-bold text-[11px] md:text-xs uppercase tracking-wide min-h-[32px]">Spray Texturizador Sea Salt</h4>
+                        <span class="text-brand-neon font-bold text-sm block mt-2">€ 19,00</span>
+                    </div>
+                    <button onclick="App.addToCart('p6', 'prod_6', 19.00)" class="mt-4 bg-white/10 hover:bg-brand-neon hover:text-black text-white text-[10px] uppercase font-bold py-2 px-3 rounded-xl transition-all w-full flex items-center justify-center gap-2">
+                        <i class="fas fa-plus"></i> <span data-i18n="btn_add">Adicionar</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO DE AGENDAMENTO (PROGRESSIVE FLOW) -->
+        <h2 class="text-2xl font-heading font-bold text-white uppercase tracking-widest mb-2 text-center reveal border-t border-white/10 pt-16">
+            <span data-i18n="booking_title">A Sua Marcação</span>
+        </h2>
+        <p data-i18n="booking_subtitle" class="text-center text-gray-400 text-xs uppercase tracking-widest mb-10 reveal">Siga os passos abaixo</p>
+
+        <!-- PASSO 1: SERVIÇO -->
+        <section id="services-section" class="reveal mb-6 scroll-mt-24">
+            <h3 class="text-sm font-bold text-white uppercase tracking-widest mb-4 flex items-center gap-2">
+                <span class="w-6 h-6 rounded-full bg-brand-light text-white flex items-center justify-center text-[10px]">1</span> 
+                <span data-i18n="step1">Escolha o Serviço</span>
+            </h3>
+            
+            <div class="space-y-3">
+                <label class="service-item glass-card p-5 flex items-center justify-between group">
+                    <div class="flex items-center gap-4">
+                        <input type="radio" name="service" value="Skin Fade" class="peer sr-only" onchange="App.unlockStep('step-barber')">
+                        <div class="radio-circle w-5 h-5 rounded-full flex items-center justify-center relative shrink-0"></div>
+                        <div>
+                            <h4 data-i18n="srv_1_title" class="text-white font-bold text-base">Corte Clássico ou Skin Fade</h4>
+                            <p data-i18n="srv_1_desc" class="text-gray-400 text-xs mt-1 font-light leading-relaxed">Corte à tesoura ou máquina com acabamento perfeito.</p>
+                        </div>
+                    </div>
+                    <div class="text-right pl-4">
+                        <span class="block text-brand-light font-bold text-lg tracking-wide">€ 18</span>
+                    </div>
+                </label>
+
+                <label class="service-item glass-card p-5 flex items-center justify-between group">
+                    <div class="flex items-center gap-4">
+                        <input type="radio" name="service" value="Barba" class="peer sr-only" onchange="App.unlockStep('step-barber')">
+                        <div class="radio-circle w-5 h-5 rounded-full flex items-center justify-center relative shrink-0"></div>
+                        <div>
+                            <h4 data-i18n="srv_2_title" class="text-white font-bold text-base">Barboterapia Premium</h4>
+                            <p data-i18n="srv_2_desc" class="text-gray-400 text-xs mt-1 font-light leading-relaxed">Hidratação profunda e toalha quente.</p>
+                        </div>
+                    </div>
+                    <div class="text-right pl-4">
+                        <span class="block text-brand-light font-bold text-lg tracking-wide">€ 15</span>
+                    </div>
+                </label>
+
+                <label class="service-item glass-card p-5 flex items-center justify-between group relative overflow-hidden">
+                    <div data-i18n="srv_badge" class="absolute top-0 right-0 bg-brand-neon text-black text-[9px] font-bold uppercase tracking-widest px-3 py-1 rounded-bl-lg z-10">O Mais Pedido</div>
+                    <div class="flex items-center gap-4">
+                        <input type="radio" name="service" value="Combo" class="peer sr-only" onchange="App.unlockStep('step-barber')">
+                        <div class="radio-circle w-5 h-5 rounded-full flex items-center justify-center relative shrink-0"></div>
+                        <div>
+                            <h4 data-i18n="srv_3_title" class="text-white font-bold text-base">Combo: Corte + Barba</h4>
+                            <p data-i18n="srv_3_desc" class="text-gray-400 text-xs mt-1 font-light leading-relaxed">Transformação total do seu visual.</p>
+                        </div>
+                    </div>
+                    <div class="text-right pl-4">
+                        <span class="block text-brand-neon font-bold text-lg tracking-wide">€ 30</span>
+                    </div>
+                </label>
+            </div>
+        </section>
+
+        <form id="booking-form" onsubmit="event.preventDefault(); App.finishBooking();">
+            
+            <!-- PASSO 2: BARBEIRO -->
+            <section id="step-barber" class="step-locked mb-6 scroll-mt-24">
+                <h3 class="text-sm font-bold text-white uppercase tracking-widest mb-4 flex items-center gap-2">
+                    <span class="w-6 h-6 rounded-full bg-brand-light text-white flex items-center justify-center text-[10px]">2</span> 
+                    <span data-i18n="step2">Com quem quer cortar?</span>
+                </h3>
+                <div class="glass-card p-6 flex gap-6 justify-center sm:justify-start">
+                    <label class="cursor-pointer group flex flex-col items-center relative">
+                        <input type="radio" name="barber" value="André" class="peer sr-only barber-radio" onchange="App.unlockStep('step-date')">
+                        <div class="w-20 h-20 rounded-full border-2 border-white/10 flex items-center justify-center transition-all overflow-hidden mb-3 shadow-lg">
+                            <img src="https://images.unsplash.com/photo-1618077360395-f3068be8e001?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover barber-avatar" alt="André">
+                        </div>
+                        <span class="text-xs text-gray-500 font-medium uppercase tracking-widest transition-colors">André</span>
+                    </label>
+                    <label class="cursor-pointer group flex flex-col items-center relative">
+                        <input type="radio" name="barber" value="João" class="peer sr-only barber-radio" onchange="App.unlockStep('step-date')">
+                        <div class="w-20 h-20 rounded-full border-2 border-white/10 flex items-center justify-center transition-all overflow-hidden mb-3 shadow-lg">
+                            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover barber-avatar" alt="João">
+                        </div>
+                        <span class="text-xs text-gray-500 font-medium uppercase tracking-widest transition-colors">João</span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- PASSO 3: DATA E HORÁRIOS COERENTES -->
+            <section id="step-date" class="step-locked mb-6 scroll-mt-24">
+                <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
+                    <div>
+                        <h3 class="text-sm font-bold text-white uppercase tracking-widest mb-4 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-brand-light text-white flex items-center justify-center text-[10px]">3</span> 
+                            <span data-i18n="step3">Escolha a Data</span>
+                        </h3>
+                        <div class="glass-card p-6 relative">
+                            <select onchange="App.unlockStep('step-time')" class="w-full bg-[#0a0f18] border border-white/10 rounded-xl px-4 py-4 text-white text-sm focus:outline-none focus:border-brand-neon appearance-none font-medium cursor-pointer transition-colors">
+                                <option value="" disabled selected data-i18n="opt_select">Selecione um dia</option>
+                                <option data-i18n="opt_today">Hoje</option>
+                                <option data-i18n="opt_tmr">Amanhã</option>
+                                <option data-i18n="opt_fri">Sexta-feira</option>
+                            </select>
+                            <i class="fas fa-chevron-down absolute right-8 top-1/2 -translate-y-1/2 text-gray-500 text-xs pointer-events-none"></i>
+                        </div>
+                    </div>
+                    
+                    <div id="step-time" class="step-locked transition-all duration-500">
+                        <h3 class="text-sm font-bold text-white uppercase tracking-widest mb-4 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-brand-light text-white flex items-center justify-center text-[10px]">4</span> 
+                            <span data-i18n="step4">Horário</span>
+                        </h3>
+                        <div class="glass-card p-6">
+                            <span class="text-[10px] text-gray-500 uppercase tracking-widest mb-3 block">Manhã</span>
+                            <div class="grid grid-cols-4 gap-2 mb-4">
+                                <div class="time-slot available bg-[#0a0f18] border border-white/10 rounded-lg py-3 text-center text-sm font-medium text-gray-300" onclick="App.selectTime(this)">09:00</div>
+                                <div class="time-slot available bg-[#0a0f18] border border-white/10 rounded-lg py-3 text-center text-sm font-medium text-gray-300" onclick="App.selectTime(this)">09:40</div>
+                                <div class="time-slot available bg-[#0a0f18] border border-white/10 rounded-lg py-3 text-center text-sm font-medium text-gray-300" onclick="App.selectTime(this)">10:20</div>
+                                <div class="time-slot available bg-[#0a0f18] border border-white/10 rounded-lg py-3 text-center text-sm font-medium text-gray-300" onclick="App.selectTime(this)">11:00</div>
+                                <div class="time-slot available bg-[#0a0f18] border border-white/10 rounded-lg py-3 text-center text-sm font-medium text-gray-300" onclick="App.selectTime(this)">11:40</div>
+                                <div class="time-slot available bg-[#0a0f18] border border-white/10 rounded-lg py-3 text-center text-sm font-medium text-gray-300" onclick="App.selectTime(this)">12:20</div>
+                            </div>
+                            
+                            <span class="text-[10px] text-gray-500 uppercase tracking-widest mb-3 block">Tarde / Noite</span>
+                            <div class="grid grid-cols-4 gap-2">
+                                <div class="time-slot available bg-[#0a0f18] border border-white/10 rounded-lg py-3 text-center text-sm font-medium text-gray-300" onclick="App.selectTime(this)">14:00</div>
+                                <div class="time-slot available bg-[#0a0f18] border border-white/10 rounded-lg py-3 text-center text-sm font-medium text-gray-300" onclick="App.selectTime(this)">14:40</div>
+                                <div class="time-slot available bg-[#0a0f18] border border-white/10 rounded-lg py-3 text-center text-sm font-medium text-gray-300" onclick="App.selectTime(this)">15:20</div>
+                                <div class="time-slot available bg-[#0a0f18] border border-white/10 rounded-lg py-3 text-center text-sm font-medium text-gray-300" onclick="App.selectTime(this)">16:00</div>
+                                <div class="time-slot available bg-[#0a0f18] border border-white/10 rounded-lg py-3 text-center text-sm font-medium text-gray-300" onclick="App.selectTime(this)">16:40</div>
+                                <div class="time-slot available bg-[#0a0f18] border border-white/10 rounded-lg py-3 text-center text-sm font-medium text-gray-300" onclick="App.selectTime(this)">17:20</div>
+                                <div class="time-slot available bg-[#0a0f18] border border-white/10 rounded-lg py-3 text-center text-sm font-medium text-gray-300" onclick="App.selectTime(this)">18:00</div>
+                                <div class="time-slot available bg-[#0a0f18] border border-white/10 rounded-lg py-3 text-center text-sm font-medium text-gray-300" onclick="App.selectTime(this)">18:40</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PASSO 5: DADOS FINAIS -->
+            <section id="step-user" class="step-locked mb-20 scroll-mt-24">
+                <h3 class="text-sm font-bold text-white uppercase tracking-widest mb-4 flex items-center gap-2">
+                    <span class="w-6 h-6 rounded-full bg-brand-light text-white flex items-center justify-center text-[10px]">5</span> 
+                    <span data-i18n="step5">Os Seus Dados</span>
+                </h3>
+                <div class="glass-card p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" id="inp-name" placeholder="Nome Completo" required class="w-full bg-[#0a0f18] border border-white/10 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-brand-neon focus:shadow-[0_0_10px_rgba(0,243,255,0.2)] text-sm transition-all">
+                        <input type="tel" id="inp-phone" placeholder="Telemóvel" required class="w-full bg-[#0a0f18] border border-white/10 rounded-xl px-4 py-4 text-white focus:outline-none focus:border-brand-neon focus:shadow-[0_0_10px_rgba(0,243,255,0.2)] text-sm transition-all">
+                    </div>
+                    
+                    <button type="submit" id="btn-submit" class="btn-shine w-full bg-brand-light text-white font-heading font-bold uppercase tracking-[0.2em] py-5 rounded-xl shadow-[0_10px_25px_rgba(59,130,246,0.4)] hover:bg-brand-neon hover:text-black hover:shadow-[0_10px_30px_rgba(0,243,255,0.5)] transition-all duration-300 flex items-center justify-center gap-3 text-sm mt-8">
+                        <span data-i18n="btn_confirm">Confirmar Marcação</span> <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </section>
+        </form>
+
+    </main>
+
+    <!-- BARRA NAVEGAÇÃO MOBILE (Fixa em baixo) -->
+    <nav class="fixed bottom-0 left-0 w-full bg-[#050505]/95 backdrop-blur-xl border-t border-white/10 z-[150] flex justify-around items-center pt-3 pb-safe-bottom sm:hidden shadow-[0_-10px_40px_rgba(0,0,0,0.8)] pb-5">
+        <button type="button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="flex flex-col items-center text-gray-500 hover:text-white transition-colors w-16">
+            <i class="fas fa-home text-xl mb-1"></i><span class="text-[9px] font-bold tracking-widest uppercase">Início</span>
+        </button>
+        <button type="button" onclick="document.getElementById('services-section').scrollIntoView({behavior: 'smooth'})" class="flex flex-col items-center text-brand-light w-16 relative transform -translate-y-2">
+            <div class="w-12 h-12 rounded-full bg-brand-light/10 border border-brand-light flex items-center justify-center mb-1 shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+                <i class="fas fa-calendar-alt text-xl"></i>
+            </div>
+            <span class="text-[9px] font-bold tracking-widest uppercase text-white">Marcar</span>
+        </button>
+        <!-- Ícone do Carrinho (Mobile) -->
+        <button type="button" onclick="App.toggleCart()" class="cart-icon-btn flex flex-col items-center text-gray-500 hover:text-white transition-colors w-16 relative">
+            <div class="relative">
+                <i class="fas fa-shopping-cart text-xl mb-1"></i>
+                <span class="cart-badge-count absolute -top-2 -right-2 bg-red-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-[#050505] hidden">0</span>
+            </div>
+            <span class="text-[9px] font-bold tracking-widest uppercase" data-i18n="nav_cart">Cesta</span>
+        </button>
+        <a href="#" class="flex flex-col items-center text-gray-500 hover:text-white transition-colors w-16">
+            <i class="fab fa-instagram text-xl mb-1"></i><span class="text-[9px] font-bold tracking-widest uppercase">Perfil</span>
+        </a>
+    </nav>
+
+    <!-- SCRIPT LÓGICA, CARRINHO E MULTILÍNGUE -->
+    <script>
+        // --- 1. SISTEMA MULTILÍNGUE (i18n) ---
+        let currentLang = 'pt';
+        const translations = {
+            pt: {
+                loading: "A preparar a sua experiência...", city: "A Sua Cidade, PT", accepting_bookings: "A aceitar marcações",
+                hero_title_1: "A Arte do", hero_title_2: "Corte Perfeito", hero_desc: "Mais do que um simples corte de cabelo. Uma experiência premium focada no seu estilo e bem-estar.",
+                btn_book: "Agendar Agora", mq_1: "Cortes de Precisão", mq_2: "Toalha Quente",
+                welcome: "Bem-vindo à", welcome_desc: "A sua experiência premium no centro da cidade. Agende o seu horário de forma rápida e prática.", ig_clients: "Clientes no Instagram",
+                gallery_title: "O Nosso Trabalho", products_title: "Produtos Premium",
+                prod_1: "Óleo de Barba Premium", prod_2: "Pomada Modeladora Mate", prod_3: "Champô Fortificante",
+                prod_4: "Bálsamo Pós-Barba", prod_5: "Escova de Barba (Cerdas)", prod_6: "Spray Texturizador Sea Salt",
+                btn_add: "Adicionar", nav_cart: "Cesta", cart_title: "O Seu Carrinho", cart_empty: "O seu carrinho está vazio.", cart_total: "Total a Pagar", btn_checkout: "Finalizar Compra",
+                booking_title: "A Sua Marcação", booking_subtitle: "Siga os passos abaixo",
+                step1: "Escolha o Serviço", step2: "Com quem quer cortar?", step3: "Escolha a Data", step4: "Horário", step5: "Os Seus Dados",
+                srv_1_title: "Corte Clássico ou Skin Fade", srv_1_desc: "Corte à tesoura ou máquina com acabamento perfeito.",
+                srv_2_title: "Barboterapia Premium", srv_2_desc: "Hidratação profunda e toalha quente.",
+                srv_3_title: "Combo: Corte + Barba", srv_3_desc: "Transformação total do seu visual.", srv_badge: "O Mais Pedido",
+                opt_select: "Selecione um dia", opt_today: "Hoje", opt_tmr: "Amanhã", opt_fri: "Sexta-feira",
+                inp_name: "Nome Completo", inp_phone: "Telemóvel", btn_confirm: "Confirmar Marcação",
+                success_title: "Concluído!", success_desc: "O seu pedido foi registado. Estamos ansiosos para recebê-lo.", btn_close: "Voltar ao Início",
+                checkout_alert: "Simulação de Checkout! Na versão final, os produtos são enviados para o seu WhatsApp ou Sistema."
+            },
+            en: {
+                loading: "Preparing your experience...", city: "Your City, PT", accepting_bookings: "Accepting bookings",
+                hero_title_1: "The Art of the", hero_title_2: "Perfect Cut", hero_desc: "More than just a haircut. A premium experience focused on your style and well-being.",
+                btn_book: "Book Now", mq_1: "Precision Cuts", mq_2: "Hot Towel",
+                welcome: "Welcome to", welcome_desc: "Your premium experience downtown. Book your slot quickly and easily.", ig_clients: "Instagram Clients",
+                gallery_title: "Our Work", products_title: "Premium Products",
+                prod_1: "Premium Beard Oil", prod_2: "Matte Styling Pomade", prod_3: "Fortifying Shampoo",
+                prod_4: "Aftershave Balm", prod_5: "Bristle Beard Brush", prod_6: "Sea Salt Texturizing Spray",
+                btn_add: "Add", nav_cart: "Cart", cart_title: "Your Cart", cart_empty: "Your cart is empty.", cart_total: "Total", btn_checkout: "Checkout",
+                booking_title: "Your Booking", booking_subtitle: "Follow the steps below",
+                step1: "Choose Service", step2: "Choose your Barber", step3: "Choose Date", step4: "Time", step5: "Your Details",
+                srv_1_title: "Classic Cut or Skin Fade", srv_1_desc: "Scissor or clipper cut with perfect finish.",
+                srv_2_title: "Premium Beard Therapy", srv_2_desc: "Deep hydration and hot towel.",
+                srv_3_title: "Combo: Hair + Beard", srv_3_desc: "Total transformation of your look.", srv_badge: "Most Popular",
+                opt_select: "Select a day", opt_today: "Today", opt_tmr: "Tomorrow", opt_fri: "Friday",
+                inp_name: "Full Name", inp_phone: "Phone Number", btn_confirm: "Confirm Booking",
+                success_title: "Success!", success_desc: "Your order has been registered. We look forward to seeing you.", btn_close: "Back to Home",
+                checkout_alert: "Checkout simulation! In the final version, products will be sent to your WhatsApp."
+            },
+            es: {
+                loading: "Preparando su experiencia...", city: "Tu Ciudad, PT", accepting_bookings: "Aceptando reservas",
+                hero_title_1: "El Arte del", hero_title_2: "Corte Perfecto", hero_desc: "Más que un simple corte de pelo. Una experiencia premium enfocada en tu estilo y bienestar.",
+                btn_book: "Reservar Ahora", mq_1: "Cortes de Precisión", mq_2: "Toalla Caliente",
+                welcome: "Bienvenido a", welcome_desc: "Su experiencia premium en el centro. Reserve su cita de forma rápida y práctica.", ig_clients: "Clientes en Instagram",
+                gallery_title: "Nuestro Trabajo", products_title: "Productos Premium",
+                prod_1: "Aceite para Barba Premium", prod_2: "Pomada Modeladora Mate", prod_3: "Champú Fortificante",
+                prod_4: "Bálsamo Aftershave", prod_5: "Cepillo para Barba", prod_6: "Spray Texturizador Sal Marina",
+                btn_add: "Añadir", nav_cart: "Cesta", cart_title: "Tu Cesta", cart_empty: "Tu cesta está vacía.", cart_total: "Total a Pagar", btn_checkout: "Finalizar Compra",
+                booking_title: "Su Reserva", booking_subtitle: "Siga los pasos a continuación",
+                step1: "Elige el Servicio", step2: "¿Con quién quieres cortar?", step3: "Elige la Fecha", step4: "Horario", step5: "Tus Datos",
+                srv_1_title: "Corte Clásico o Skin Fade", srv_1_desc: "Corte a tijera o máquina con acabado perfecto.",
+                srv_2_title: "Barboterapia Premium", srv_2_desc: "Hidratación profunda y toalla caliente.",
+                srv_3_title: "Combo: Corte + Barba", srv_3_desc: "Transformación total de su look.", srv_badge: "Más Pedido",
+                opt_select: "Seleccione un día", opt_today: "Hoy", opt_tmr: "Mañana", opt_fri: "Viernes",
+                inp_name: "Nombre Completo", inp_phone: "Teléfono", btn_confirm: "Confirmar Reserva",
+                success_title: "¡Hecho!", success_desc: "Su pedido ha sido registrado. Esperamos recibirle.", btn_close: "Volver al Inicio",
+                checkout_alert: "¡Simulación de pago! En la versión final, los productos se enviarán a su WhatsApp."
+            }
+        };
+
+        function initLanguage() {
+            const userLang = navigator.language || navigator.userLanguage;
+            if(userLang.includes('en')) currentLang = 'en';
+            else if(userLang.includes('es')) currentLang = 'es';
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[currentLang][key]) el.textContent = translations[currentLang][key];
+            });
+
+            document.getElementById('inp-name').placeholder = translations[currentLang].inp_name;
+            document.getElementById('inp-phone').placeholder = translations[currentLang].inp_phone;
+        }
+
+        // --- 2. LÓGICA DO CARRINHO (E-COMMERCE) ---
+        let cart = [];
+
+        window.App = {
+            // Lógica do E-Commerce
+            addToCart: function(id, nameKey, price) {
+                const existing = cart.find(item => item.id === id);
+                if (existing) {
+                    existing.qty += 1;
+                } else {
+                    cart.push({ id, nameKey, price, qty: 1 });
+                }
+                this.updateCartUI();
+                
+                // Animação visual no ícone do carrinho
+                document.querySelectorAll('.cart-icon-btn').forEach(btn => {
+                    btn.classList.remove('animate-bounce-short');
+                    void btn.offsetWidth; // trigger reflow
+                    btn.classList.add('animate-bounce-short');
+                });
+            },
+            
+            updateCartQty: function(id, delta) {
+                const item = cart.find(i => i.id === id);
+                if (item) {
+                    item.qty += delta;
+                    if (item.qty <= 0) {
+                        cart = cart.filter(i => i.id !== id);
+                    }
+                    this.updateCartUI();
+                }
+            },
+            
+            updateCartUI: function() {
+                const container = document.getElementById('cart-items');
+                const totalEl = document.getElementById('cart-total-price');
+                const badges = document.querySelectorAll('.cart-badge-count');
+                
+                let total = 0;
+                let count = 0;
+                
+                if (cart.length === 0) {
+                    container.innerHTML = `<div class="text-center text-gray-500 mt-10 text-sm" data-i18n="cart_empty">${translations[currentLang].cart_empty}</div>`;
+                } else {
+                    container.innerHTML = cart.map(item => {
+                        total += item.price * item.qty;
+                        count += item.qty;
+                        const itemName = translations[currentLang][item.nameKey] || item.nameKey;
+                        return `
+                            <div class="flex justify-between items-center bg-white/5 p-4 rounded-xl border border-white/10 shadow-md">
+                                <div class="flex-1 pr-2">
+                                    <h5 class="text-white text-xs font-bold leading-tight">${itemName}</h5>
+                                    <div class="text-brand-neon font-medium text-xs mt-1">€ ${item.price.toFixed(2).replace('.', ',')}</div>
+                                </div>
+                                <div class="flex items-center gap-3 bg-black/60 rounded-full px-2 py-1.5 border border-white/5">
+                                    <button onclick="App.updateCartQty('${item.id}', -1)" class="text-gray-400 hover:text-white w-6 h-6 flex items-center justify-center transition-colors"><i class="fas fa-minus text-[10px]"></i></button>
+                                    <span class="text-white text-xs font-bold w-4 text-center">${item.qty}</span>
+                                    <button onclick="App.updateCartQty('${item.id}', 1)" class="text-brand-neon hover:text-white w-6 h-6 flex items-center justify-center transition-colors"><i class="fas fa-plus text-[10px]"></i></button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+                
+                totalEl.innerText = `€ ${total.toFixed(2).replace('.', ',')}`;
+                badges.forEach(b => {
+                    b.innerText = count;
+                    if(count > 0) b.classList.remove('hidden');
+                    else b.classList.add('hidden');
+                });
+            },
+            
+            toggleCart: function() {
+                const drawer = document.getElementById('cart-drawer');
+                const overlay = document.getElementById('cart-overlay');
+                
+                if (drawer.classList.contains('translate-x-full')) {
+                    // Abrir
+                    drawer.classList.remove('translate-x-full');
+                    overlay.classList.remove('hidden');
+                    setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+                    document.body.classList.add('overflow-hidden');
+                } else {
+                    // Fechar
+                    drawer.classList.add('translate-x-full');
+                    overlay.classList.add('opacity-0');
+                    setTimeout(() => overlay.classList.add('hidden'), 300);
+                    document.body.classList.remove('overflow-hidden');
+                }
+            },
+            
+            checkoutCart: function() {
+                if(cart.length === 0) return;
+                const btn = document.getElementById('btn-checkout');
+                const originalContent = btn.innerHTML;
+                
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                
+                setTimeout(() => {
+                    alert(translations[currentLang].checkout_alert);
+                    cart = [];
+                    this.updateCartUI();
+                    this.toggleCart();
+                    btn.innerHTML = originalContent;
+                }, 1200);
+            },
+
+            // Lógica de Agendamento (Progressive Flow)
+            selectService: function(radioInput) {
+                document.querySelectorAll('.service-item').forEach(item => item.classList.remove('selected-service'));
+                radioInput.closest('.service-item').classList.add('selected-service');
+                this.unlockStep('step-barber');
+            },
+            
+            unlockStep: function(stepId) {
+                const step = document.getElementById(stepId);
+                if (step.classList.contains('step-locked')) {
+                    step.classList.remove('step-locked');
+                    step.classList.add('step-unlocked');
+                    setTimeout(() => step.scrollIntoView({ behavior: 'smooth', block: 'center' }), 200);
+                }
+            },
+
+            selectTime: function(element) {
+                document.querySelectorAll('.time-slot').forEach(item => item.classList.remove('selected'));
+                element.classList.add('selected');
+                this.unlockStep('step-user');
+            },
+
+            finishBooking: function() {
+                const btn = document.getElementById('btn-submit');
+                const originalContent = btn.innerHTML;
+                
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                
+                setTimeout(() => {
+                    const modal = document.getElementById('success-modal');
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                    document.body.classList.add('overflow-hidden');
+                    btn.innerHTML = originalContent;
+                }, 1500);
+            },
+
+            closeSuccessModal: function() {
+                const modal = document.getElementById('success-modal');
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.classList.remove('overflow-hidden');
+                
+                window.scrollTo({top: 0, behavior: 'smooth'});
+                setTimeout(() => location.reload(), 500);
+            }
+        };
+
+        // --- 3. INICIALIZAÇÕES ON LOAD ---
+        window.addEventListener('load', () => {
+            initLanguage(); 
+            App.updateCartUI(); // Inicializa carrinho vazio
+            
+            const splashScreen = document.getElementById('splash-screen');
+            const bodyContainer = document.getElementById('body-container');
+            const splashIcon = document.getElementById('splash-icon');
+            
+            setTimeout(() => { splashIcon.classList.remove('-rotate-45'); splashIcon.classList.add('rotate-0'); }, 500);
+            setTimeout(() => {
+                splashScreen.style.opacity = '0';
+                setTimeout(() => {
+                    splashScreen.style.display = 'none';
+                    bodyContainer.classList.remove('overflow-hidden');
+                }, 1000);
+            }, 2000);
+        });
+
+        // Efeito Blur Navbar
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-lg'); nav.style.backgroundColor = 'rgba(5, 5, 5, 0.9)';
+            } else {
+                nav.classList.remove('shadow-lg'); nav.style.backgroundColor = 'rgba(5, 5, 5, 0.7)';
+            }
+        });
+
+        // Efeito Reveal (Fade In ao fazer scroll)
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+            if(reveals.length > 0) reveals[0].classList.add('active');
+            
+            const revealOnScroll = () => {
+                for (let i = 0; i < reveals.length; i++) {
+                    const windowHeight = window.innerHeight;
+                    const elementTop = reveals[i].getBoundingClientRect().top;
+                    if (elementTop < windowHeight - 50) reveals[i].classList.add('active');
+                }
+            };
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll();
+        });
+    </script>
+</body>
+</html>
