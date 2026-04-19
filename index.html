@@ -155,6 +155,17 @@
         .prod-img { transition: transform 0.5s ease; }
         .glass-card:hover .prod-img { transform: translateY(-5px) scale(1.05); }
 
+        /* Efeito de Produto no Carrinho (Ativo/Neon) */
+        .glass-card.in-cart {
+            border-color: #00f3ff !important;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.3) !important;
+            background: rgba(0, 243, 255, 0.05) !important;
+        }
+        .glass-card.in-cart .prod-img {
+            filter: grayscale(0%) !important;
+            transform: translateY(-5px) scale(1.05);
+        }
+
         /* Custom Scrollbar for Cart */
         .cart-scroll::-webkit-scrollbar { width: 4px; }
         .cart-scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
@@ -324,8 +335,7 @@
                 <span class="text-[10px] text-gray-500 uppercase tracking-widest font-bold flex items-center gap-2"><i class="fas fa-arrows-alt-h text-brand-neon animate-pulse"></i> Arraste</span>
             </div>
             
-            <!-- Velocidade reduzida para 0.7 -->
-            <div class="infinite-carousel" data-speed="0.7">
+            <div class="infinite-carousel" data-speed="0.6">
                 <div class="w-56 shrink-0 rounded-2xl overflow-hidden aspect-[4/5] bg-gray-900 border border-white/5 relative group cursor-pointer shadow-lg" onclick="App.openLightbox(this.querySelector('img').src)">
                     <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?q=80&w=800&auto=format&fit=crop" alt="Corte Degradê" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none">
                     <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300 flex items-end p-5 pointer-events-none">
@@ -333,7 +343,6 @@
                     </div>
                 </div>
                 
-                <!-- IMAGEM SUBSTITUÍDA: Barboterapia -->
                 <div class="w-56 shrink-0 rounded-2xl overflow-hidden aspect-[4/5] bg-gray-900 border border-white/5 relative group cursor-pointer shadow-lg" onclick="App.openLightbox(this.querySelector('img').src)">
                     <img src="https://blog.savellicalcados.com.br/wp-content/uploads/2023/06/man-barbershop-salon-doing-haircut-beard-trim-scaled.jpg" alt="Barba Alinhada" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 pointer-events-none">
                     <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300 flex items-end p-5 pointer-events-none">
@@ -366,7 +375,7 @@
             </div>
             
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
-                <div class="glass-card p-4 flex flex-col justify-between text-center group hover:border-brand-neon hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] transition-all h-full relative">
+                <div class="glass-card p-4 flex flex-col justify-between text-center group hover:border-brand-neon hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] transition-all h-full relative" data-product-id="p1">
                     <div class="h-32 mb-4 w-full flex items-center justify-center overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=300&auto=format&fit=crop" alt="Óleo de Barba" class="h-full object-cover rounded-lg prod-img filter grayscale group-hover:grayscale-0">
                     </div>
@@ -378,7 +387,7 @@
                         <i class="fas fa-plus"></i> <span data-i18n="btn_add">Adicionar</span>
                     </button>
                 </div>
-                <div class="glass-card p-4 flex flex-col justify-between text-center group hover:border-brand-neon hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] transition-all h-full relative">
+                <div class="glass-card p-4 flex flex-col justify-between text-center group hover:border-brand-neon hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] transition-all h-full relative" data-product-id="p2">
                     <div class="h-32 mb-4 w-full flex items-center justify-center overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=300&auto=format&fit=crop" alt="Pomada" class="h-full object-cover rounded-lg prod-img filter grayscale group-hover:grayscale-0">
                     </div>
@@ -390,7 +399,7 @@
                         <i class="fas fa-plus"></i> <span data-i18n="btn_add">Adicionar</span>
                     </button>
                 </div>
-                <div class="glass-card p-4 flex flex-col justify-between text-center group hover:border-brand-neon hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] transition-all h-full relative">
+                <div class="glass-card p-4 flex flex-col justify-between text-center group hover:border-brand-neon hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] transition-all h-full relative" data-product-id="p3">
                     <div class="h-32 mb-4 w-full flex items-center justify-center overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?q=80&w=300&auto=format&fit=crop" alt="Champô" class="h-full object-cover rounded-lg prod-img filter grayscale group-hover:grayscale-0">
                     </div>
@@ -402,7 +411,7 @@
                         <i class="fas fa-plus"></i> <span data-i18n="btn_add">Adicionar</span>
                     </button>
                 </div>
-                <div class="glass-card p-4 flex flex-col justify-between text-center group hover:border-brand-neon hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] transition-all h-full relative">
+                <div class="glass-card p-4 flex flex-col justify-between text-center group hover:border-brand-neon hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] transition-all h-full relative" data-product-id="p4">
                     <div class="h-32 mb-4 w-full flex items-center justify-center overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?q=80&w=300&auto=format&fit=crop" alt="Bálsamo" class="h-full object-cover rounded-lg prod-img filter grayscale group-hover:grayscale-0">
                     </div>
@@ -414,7 +423,7 @@
                         <i class="fas fa-plus"></i> <span data-i18n="btn_add">Adicionar</span>
                     </button>
                 </div>
-                <div class="glass-card p-4 flex flex-col justify-between text-center group hover:border-brand-neon hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] transition-all h-full relative">
+                <div class="glass-card p-4 flex flex-col justify-between text-center group hover:border-brand-neon hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] transition-all h-full relative" data-product-id="p5">
                     <div class="h-32 mb-4 w-full flex items-center justify-center overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=300&auto=format&fit=crop" alt="Escova" class="h-full object-cover rounded-lg prod-img filter grayscale group-hover:grayscale-0">
                     </div>
@@ -426,7 +435,7 @@
                         <i class="fas fa-plus"></i> <span data-i18n="btn_add">Adicionar</span>
                     </button>
                 </div>
-                <div class="glass-card p-4 flex flex-col justify-between text-center group hover:border-brand-neon hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] transition-all h-full relative">
+                <div class="glass-card p-4 flex flex-col justify-between text-center group hover:border-brand-neon hover:shadow-[0_0_20px_rgba(0,243,255,0.15)] transition-all h-full relative" data-product-id="p6">
                     <div class="h-32 mb-4 w-full flex items-center justify-center overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1629198688000-71f23e745b6e?q=80&w=300&auto=format&fit=crop" alt="Spray" class="h-full object-cover rounded-lg prod-img filter grayscale group-hover:grayscale-0">
                     </div>
@@ -579,8 +588,7 @@
                 <span class="text-brand-neon">"</span> <span data-i18n="testimonials_title">O Que Dizem Sobre Nós</span>
             </h2>
 
-            <!-- Velocidade reduzida para 0.5 -->
-            <div class="infinite-carousel" data-speed="0.5">
+            <div class="infinite-carousel" data-speed="0.4">
                 <div class="glass-card p-6 w-80 shrink-0 border-brand-light/20 pointer-events-none">
                     <div class="flex items-center gap-4 mb-4">
                         <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop" class="w-12 h-12 rounded-full object-cover border border-white/10" alt="Cliente">
@@ -807,6 +815,16 @@
                 }
                 totalEl.innerText = `€ ${total.toFixed(2).replace('.', ',')}`;
                 badges.forEach(b => { b.innerText = count; b.classList.toggle('hidden', count === 0); });
+
+                // NOVO: Atualiza a interface dos produtos (efeito neon e cor quando adicionados)
+                document.querySelectorAll('[data-product-id]').forEach(card => {
+                    const pid = card.getAttribute('data-product-id');
+                    if (cart.some(item => item.id === pid)) {
+                        card.classList.add('in-cart');
+                    } else {
+                        card.classList.remove('in-cart');
+                    }
+                });
             },
             
             toggleCart: function() {
@@ -967,6 +985,7 @@
                 let scrollLeft;
                 let animationId;
                 let speed = parseFloat(c.getAttribute('data-speed')) || 1;
+                let exactScrollLeft = 0; // CORREÇÃO: Variável para armazenar a posição decimal exata
 
                 // Clone content to make it appear infinite
                 const originalHtml = c.innerHTML;
@@ -974,10 +993,11 @@
 
                 const autoPlay = () => {
                     if(!isDown) {
-                        c.scrollLeft += speed;
-                        if(c.scrollLeft >= c.scrollWidth / 2) {
-                            c.scrollLeft = 0; // Reset quietly
+                        exactScrollLeft += speed; // Acumula decimais (ex: 0.4 + 0.4 = 0.8 -> 1.2)
+                        if(exactScrollLeft >= c.scrollWidth / 2) {
+                            exactScrollLeft = 0; // Reset quietly
                         }
+                        c.scrollLeft = Math.floor(exactScrollLeft); // Aplica o scroll arredondado ao navegador
                     }
                     animationId = requestAnimationFrame(autoPlay);
                 };
@@ -992,8 +1012,16 @@
                     startX = e.pageX - c.offsetLeft;
                     scrollLeft = c.scrollLeft;
                 });
-                c.addEventListener('mouseleave', () => { isDown = false; c.classList.remove('active'); });
-                c.addEventListener('mouseup', () => { isDown = false; c.classList.remove('active'); });
+                c.addEventListener('mouseleave', () => { 
+                    isDown = false; 
+                    c.classList.remove('active'); 
+                    exactScrollLeft = c.scrollLeft; // Sincroniza quando solta
+                });
+                c.addEventListener('mouseup', () => { 
+                    isDown = false; 
+                    c.classList.remove('active'); 
+                    exactScrollLeft = c.scrollLeft; // Sincroniza quando solta
+                });
                 c.addEventListener('mousemove', (e) => {
                     if(!isDown) return;
                     e.preventDefault();
@@ -1004,6 +1032,8 @@
                     // Tratamento infinito enquanto arrasta
                     if(c.scrollLeft <= 0) c.scrollLeft = c.scrollWidth / 2;
                     else if(c.scrollLeft >= c.scrollWidth / 2) c.scrollLeft = 0;
+                    
+                    exactScrollLeft = c.scrollLeft; // Sincroniza a posição exata
                 });
                 
                 // Touch Events
@@ -1012,7 +1042,10 @@
                     startX = e.touches[0].pageX - c.offsetLeft;
                     scrollLeft = c.scrollLeft;
                 });
-                c.addEventListener('touchend', () => { isDown = false; });
+                c.addEventListener('touchend', () => { 
+                    isDown = false; 
+                    exactScrollLeft = c.scrollLeft; // Sincroniza quando solta
+                });
                 c.addEventListener('touchmove', (e) => {
                     if(!isDown) return;
                     const x = e.touches[0].pageX - c.offsetLeft;
@@ -1021,6 +1054,8 @@
                     
                     if(c.scrollLeft <= 0) c.scrollLeft = c.scrollWidth / 2;
                     else if(c.scrollLeft >= c.scrollWidth / 2) c.scrollLeft = 0;
+                    
+                    exactScrollLeft = c.scrollLeft; // Sincroniza a posição exata
                 });
             });
         }
